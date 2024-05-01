@@ -1,0 +1,11 @@
+chromadb==0.4.15
+gpt4all
+pdfminer
+langchain
+langchain-community
+ollama
+sentence-transformers
+tokenizers
+faster-whisper
+pipx
+pvrecorder
