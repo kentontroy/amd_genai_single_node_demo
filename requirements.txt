@@ -1,6 +1,7 @@
 chromadb==0.4.15
 gpt4all
 pdfminer
+pdfminer.six
 langchain
 langchain-community
 ollama
