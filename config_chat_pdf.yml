@@ -2,7 +2,7 @@ llm_inference:
   workflow_type: "chat_rag_with_pdf"
 
   model:
-    name: "llama2-uncensored:latest"
+    name: "llama3"
     device: "cpu"
     temperature: 0.5 
     max_tokens: 100
