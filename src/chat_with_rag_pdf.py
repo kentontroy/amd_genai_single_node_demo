@@ -1,16 +1,20 @@
+from formatted_console_stream import FormattedConsoleStreamHandler
 from langchain_community.document_loaders import PDFMinerLoader
 from langchain_community.embeddings import GPT4AllEmbeddings, HuggingFaceEmbeddings
 from langchain_community.llms import Ollama
 from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import PromptTemplate
 from langchain.callbacks.manager import CallbackManager
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from parse_yaml import ChatWithRagPDF
 from suppress_std_out import SuppressStdout
 import chromadb
 import torch
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+QUERY_HISTORY_STACK = []
 
 def chat_with_rag_pdf(obj: ChatWithRagPDF):
   if obj.device == "mps":
@@ -62,21 +66,46 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
 
   llm = Ollama(model=obj.model,
     temperature = obj.temperature,
-    callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+    callback_manager = CallbackManager(
+      [FormattedConsoleStreamHandler(obj.format_color_of_response, obj.console_line_length)])
   )
   qa_chain = RetrievalQA.from_chain_type(
     llm,
     retriever = vectorstore.as_retriever(search_kwargs={"k": 2}),
     chain_type_kwargs = {"prompt": QA_CHAIN_PROMPT}
   )
+##################################################
+# TODO: have functionality similar to missing:
 #  qa_chain.max_tokens_limit = obj.max_tokens
+##################################################
 
   while True:
     query = input("\nQuery: ")
-    if query == "exit":
-      break
     if query.strip() == "":
       continue
+
+    if query == "/exit".strip() or query == "exit".strip():
+      break
+    elif query == "/command".strip() or query == "command".strip():
+      command = input("\nCommand: ")
+      if command == "last run".strip():
+        if len(QUERY_HISTORY_STACK) > 0:
+          query = QUERY_HISTORY_STACK[-1]
+        else:
+          print("No previous LLM invocation can be found.")
+          continue
+      elif command == "exit".strip():
+        continue 
+      elif command == "help".strip():
+        print("last run:  Invokes the LLM using the last prompt")
+        print("last save: Saves the output from the last LLM invocation")
+        continue
+      else:
+        if command not in ["last run"]:
+          print("Command mode options include: last run, last save")
+          continue
+    else:
+      QUERY_HISTORY_STACK.append(query)
 
     result = qa_chain({"query": query})
 

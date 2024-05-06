@@ -8,6 +8,8 @@ class ChatWithRagPDF(BaseModel):
   temperature: float = 0.7
   max_tokens: int = 50
   prompt_template: str = ""
+  format_color_of_response: str = ""
+  console_line_length: int = 50
   vector_store: str = "chromadb"
   vector_store_path: str = ""
   vector_store_collection: str = "demo"
@@ -33,6 +35,8 @@ def process_yaml(filePath: str) -> BaseModel:
     output["chunk_size"] = data["llm_inference"]["rag"]["chunk_size"]
     output["chunk_overlap"] = data["llm_inference"]["rag"]["chunk_overlap"]
     output["pdf"] = data["llm_inference"]["rag"]["pdf"]
+    output["format_color_of_response"] = data["llm_inference"]["chat"]["format_color_of_response"]
+    output["console_line_length"] = data["llm_inference"]["chat"]["console_line_length"]
     output["prompt_template"] = data["llm_inference"]["chat"]["prompt_template"]
     return ChatWithRagPDF(**output)
   return null
