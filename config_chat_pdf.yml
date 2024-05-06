@@ -2,7 +2,7 @@ llm_inference:
   workflow_type: "chat_rag_with_pdf"
 
   model:
-    name: "llama3"
+    name: "llama2-uncensored:latest"
     device: "cpu"
     temperature: 0.5 
     max_tokens: 100
@@ -17,6 +17,8 @@ llm_inference:
     pdf: "/usr/app/ollama/pdf/game_of_thrones/A_Game_Of_Thrones.pdf" 
 
   chat:
+    format_color_of_response: "CYAN"
+    console_line_length: 100
     prompt_template: >
       Use the following pieces of context to answer the question at the end.
       If you don't know the answer, just say that you don't know, don't try to make up an answer.
