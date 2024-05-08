@@ -69,7 +69,7 @@ pipx run insanely-fast-whisper --file-name sam_altman_lex_podcast_367.flac --dev
 ```
 ## Text-to-text using Ollama
 ```
-curl -fsSL https://ollama.com/install.sh | sh
+(venv) [cloudera@mxq3180fg6-os demo]$ curl -fsSL https://ollama.com/install.sh | sh
 >>> The Ollama API is now available at 127.0.0.1:11434.
 >>> Install complete. Run "ollama" from the command line.
 WARNING: No NVIDIA/AMD GPU detected. Ollama will run in CPU-only mode.
@@ -82,5 +82,5 @@ ollama pull llama3
 ```
 ## Run an LLM text-to-text example
 ```
-python src/main.py -y config_chat_pdf.yml
+(venv) [cloudera@mxq3180fg6-os demo]$ python src/main.py -y config_chat_pdf.yml
 ```
