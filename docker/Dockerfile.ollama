@@ -22,6 +22,6 @@ COPY --chmod=755 pdf/game_of_thrones/A_Game_Of_Thrones.pdf ./pdf/game_of_thrones
 
 RUN pip install -r ./requirements.txt
 
-#RUN ollama serve >> ollama-log.txt 2>&1 &
+#RUN ollama serve >> logs/ollama-log.txt 2>&1 &
 #RUN ollama pull llama2-uncensored:latest 
 #RUN ollama pull llama3
