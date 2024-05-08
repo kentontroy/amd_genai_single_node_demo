@@ -11,7 +11,7 @@ llm_inference:
     vector_store: "chromadb"
     vector_store_path: "/usr/app/ollama/chromadb"
     vector_store_collection: "book_game_of_thrones"
-    vectore_store_embedding_model: "sentence-transformers/all-mpnet-base-v2"
+    vectore_store_embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
     chunk_size: 1000
     chunk_overlap: 50
     pdf: "/usr/app/ollama/pdf/game_of_thrones/A_Game_Of_Thrones.pdf" 
