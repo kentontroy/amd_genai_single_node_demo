@@ -9,10 +9,17 @@ from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from parse_yaml import ChatWithRagPDF
 from suppress_std_out import SuppressStdout
-import chromadb
 import torch
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+#########################################################
+# Added for Linux support issue
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+#########################################################
+import chromadb
 
 QUERY_HISTORY_STACK = []
 
