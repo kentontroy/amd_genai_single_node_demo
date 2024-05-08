@@ -1,9 +1,0 @@
-FROM continuumio/miniconda3
-
-RUN apt-get update -y
-
-RUN conda install jupyter -y --quiet && \
-    mkdir -p /opt/notebooks && \
-    jupyter notebook \
-    --notebook-dir=/opt/notebooks --ip='*' --port=8888 \
-    --no-browser --allow-root"
