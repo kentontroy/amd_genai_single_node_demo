@@ -10,3 +10,8 @@ tokenizers
 faster-whisper
 pipx
 pvrecorder
+pyaudio
+pydub
+SpeechRecognition
+xmltodict
+vosk
