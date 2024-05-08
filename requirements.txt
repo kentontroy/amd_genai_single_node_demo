@@ -15,3 +15,4 @@ pydub
 SpeechRecognition
 xmltodict
 vosk
+pysqlite3-binary
