@@ -1,0 +1,11 @@
+llm_inference:
+  workflow_type: "convert_speech_to_text"
+
+  model:
+    name: "openai/whisper-large-v3"
+    device: "mps"
+
+  processing:
+    episode_folder: "./audio/podcasts"
+    batch_size: "4"
+    command:  "insanely-fast-whisper" 
