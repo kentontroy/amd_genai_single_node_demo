@@ -18,6 +18,14 @@ class ChatWithRagPDF(BaseModel):
   chunk_overlap: int = 0
   pdf: str = ""
 
+class ConvertSpeechToText(BaseModel):
+  workflow_type: str = "" 
+  model: str = "openai/whisper-large-v3"
+  device: str = "cpu"
+  episode_folder: str = "./audio/podcasts"
+  batch_size: str = "4"
+  command: str = "insanely-fast-whisper"
+
 def process_yaml(filePath: str) -> BaseModel:
   with open(filePath, "r") as file:
     data = yaml.safe_load(file)
@@ -39,5 +47,13 @@ def process_yaml(filePath: str) -> BaseModel:
     output["console_line_length"] = data["llm_inference"]["chat"]["console_line_length"]
     output["prompt_template"] = data["llm_inference"]["chat"]["prompt_template"]
     return ChatWithRagPDF(**output)
+  elif output["workflow_type"] == "convert_speech_to_text":
+    output["model"] = data["llm_inference"]["model"]["name"]
+    output["device"] = data["llm_inference"]["model"]["device"]
+    output["episoder_folder"] = data["llm_inference"]["processing"]["episode_folder"]
+    output["batch_size"] = data["llm_inference"]["processing"]["batch_size"]
+    output["command"] = data["llm_inference"]["processing"]["command"]
+    return ConvertSpeechToText(**output)
+
   return null
 

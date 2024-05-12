@@ -1,5 +1,6 @@
-from parse_yaml import ChatWithRagPDF, process_yaml
+from parse_yaml import ChatWithRagPDF, ConvertSpeechToText, process_yaml
 from chat_with_rag_pdf import chat_with_rag_pdf
+from convert_podcast_to_text import convert_speech_to_text
 import getopt
 import os
 import sys
@@ -23,6 +24,8 @@ if __name__== '__main__':
         obj = process_yaml(val)
         if isinstance(obj, ChatWithRagPDF):
           chat_with_rag_pdf(obj)
+        elif isinstance(obj, ConvertSpeechToText):
+          convert_speech_to_text(obj)
       else:
         show_help()
 
