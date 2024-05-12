@@ -1,0 +1,6 @@
+llm_inference:
+  workflow_type: "load_podcasts_from_marketplace"
+  url: "https://www.marketplace.org/feed/podcast/marketplace/" 
+  max_download: 75
+  episode_file_db: "./podcast_file_db"
+  episode_folder: "./audio/podcasts"
