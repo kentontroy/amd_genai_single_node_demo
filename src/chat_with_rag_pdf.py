@@ -9,6 +9,7 @@ from langchain.chains import RetrievalQA
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from parse_yaml import ChatWithRagPDF
 from suppress_std_out import SuppressStdout
+import subprocess
 import sys
 import torch
 import warnings
@@ -91,6 +92,9 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
 #  qa_chain.max_tokens_limit = obj.max_tokens
 ##################################################
 
+  speak_enabled = False
+  url = "http://127.0.0.1:7851/api/tts-generate"
+
   while True:
     query = input("\nQuery: ")
     if query.strip() == "":
@@ -106,17 +110,29 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
         else:
           print("No previous LLM invocation can be found.")
           continue
+      elif command == "speak on".strip():
+        speak_enabled = True
+        continue 
+      elif command == "speak off".strip():
+        speak_enabled = False
+        continue 
       elif command == "exit".strip():
         continue 
       elif command == "help".strip():
         print("last run:  Invokes the LLM using the last prompt")
         print("last save: Saves the output from the last LLM invocation")
+        print("speak on:  Turns on voice assistant audio")
+        print("speak off: Turns off voice assistant audio")
         continue
       else:
-        if command not in ["last run"]:
-          print("Command mode options include: last run, last save")
-          continue
+        print("Command mode options include: last run, last save, speak on, speak off, exit")
+        continue
     else:
       QUERY_HISTORY_STACK.append(query)
 
     result = qa_chain({"query": query})
+
+    if speak_enabled:
+      subprocess.run(["./src/audio_output.sh", result["result"], "female_03.wav"])
+      
+

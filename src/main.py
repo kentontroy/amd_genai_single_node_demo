@@ -8,6 +8,8 @@ import sys
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 def show_help():
   print("main.py -y <YAML>")
   sys.exit(1)
