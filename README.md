@@ -33,7 +33,7 @@ libffi-3.1-23.el8.x86_64
 sudo yum install -y libffi-devel bzip2-devel readline-devel libsqlite3x-devel.x86_64
 sudo yum install portaudio-devel alsa-lib-devel portaudio
 ```
-## Install Python virtual environments
+## Install and use Python virtual environments
 ```
 sudo curl https://pyenv.run | bash
 cat $HOME/.bash_profile
@@ -46,12 +46,12 @@ eval "$(pyenv virtualenv-init -)"
 
 pyenv install 3.10.0
 pyenv install 3.11.9
-```
-## Speech-to-text via a GPU - metal and cuda support
-```
+
 pyenv virtualenv 3.11.9 venv
 pyenv activate venv
-
+```
+## Speech-to-text via a GPU - given Metal and Cuda support
+```
 (venv) [cloudera@mxq3180fg6-os demo]$ python --version
 Python 3.11.9
 
@@ -83,4 +83,21 @@ ollama pull llama3
 ## Run an LLM text-to-text example
 ```
 (venv) [cloudera@mxq3180fg6-os demo]$ python src/main.py -y config_chat_pdf.yml
+```
+## Text-to-speech using AllTalk_tts
+```
+(venv_alltalk_tts) [cloudera@mxq3180fg6-os demo]$ git clone https://github.com/erew123/alltalk_tts
+(venv_alltalk_tts) [cloudera@mxq3180fg6-os demo]$ pip install -r system/requirements/requirements_standalone.txt
+
+(venv_alltalk_tts) [cloudera@mxq3180fg6-os demo]$ python script.py
+[AllTalk Startup] Model is available     : Checked
+[AllTalk Startup] Current Python Version : 3.11.9
+[AllTalk Startup] Current PyTorch Version: 2.3.0
+[AllTalk Startup] Current CUDA Version   : CUDA is not available
+[AllTalk Startup] Current TTS Version    : 0.22.0
+[AllTalk Startup] Current TTS Version is : Up to date
+[AllTalk Startup] AllTalk Github updated : 12th May 2024 at 13:00
+[AllTalk Startup] TTS Subprocess         : Starting up
+[AllTalk Startup]
+[AllTalk Startup] AllTalk Settings & Documentation: http://127.0.0.1:7851
 ```
