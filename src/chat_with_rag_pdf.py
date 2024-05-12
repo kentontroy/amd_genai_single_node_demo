@@ -22,9 +22,9 @@ try:
   sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 except ImportError:
   pass
-#########################################################
 
 import chromadb
+#########################################################
 
 QUERY_HISTORY_STACK = []
 
