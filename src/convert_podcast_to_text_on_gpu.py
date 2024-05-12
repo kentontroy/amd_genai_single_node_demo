@@ -1,8 +1,6 @@
 from parse_yaml import ConvertSpeechToText
-import getopt
 import os
 import subprocess
-import sys
 
 def convert_speech_to_text(obj: ConvertSpeechToText):
   try:
