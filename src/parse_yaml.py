@@ -26,6 +26,13 @@ class ConvertSpeechToText(BaseModel):
   batch_size: str = "4"
   command: str = "insanely-fast-whisper"
 
+class LoadPodcastsFromMarketplace(BaseModel):
+  url: str = "https://www.marketplace.org/feed/podcast/marketplace/"
+  file_type: str = "audio/mpeg"
+  max_download: int = 75
+  episode_file_db: str = "./podcast_file_db"
+  episode_folder: str = "./audio/podcasts"
+
 def process_yaml(filePath: str) -> BaseModel:
   with open(filePath, "r") as file:
     data = yaml.safe_load(file)
@@ -54,6 +61,13 @@ def process_yaml(filePath: str) -> BaseModel:
     output["batch_size"] = data["llm_inference"]["processing"]["batch_size"]
     output["command"] = data["llm_inference"]["processing"]["command"]
     return ConvertSpeechToText(**output)
+  elif output["workflow_type"] == "load_podcasts_from_marketplace":
+    output["url"] = data["llm_inference"]["url"]
+    output["file_type"] = data["llm_inference"]["file_type"]
+    output["max_download"] = data["llm_inference"]["max_download"]
+    output["episode_file_db"] = data["llm_inference"]["episode_file_db"]
+    output["episode_folder"] = data["llm_inference"]["episode_folder"]
+    return LoadPodcastsFromMarketplace(**output)
 
   return null
 
