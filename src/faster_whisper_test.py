@@ -27,7 +27,7 @@ if __name__== "__main__":
   signal.signal(signal.SIGINT, signal_handler)
   print("Press Ctrl+C to stop")
   print("--------------------\n")
-
+  
   i = 0
   for segment in segments:
     if i % 2 == 0:
