@@ -36,7 +36,7 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
     device = obj.device if torch.backends.cuda.is_available() else "cpu"
   else:
     device = "cpu"
-  model_name = obj.vectore_store_embedding_model
+  model_name = obj.vector_store_embedding_model
   model_kwargs = {"device": device}
   encode_kwargs = {"normalize_embeddings": False}
   
@@ -56,6 +56,11 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
   except Exception as error:
     print(error)
     collection = chroma_client.create_collection(name = collection_name)
+    collection = chroma_client.create_collection( 
+      name=obj.vector_store_collection,
+      metadata={"hnsw:space": obj.vector_store_hnsw_search_algo} 
+    )
+
     loader = PDFMinerLoader(obj.pdf)
     data = loader.load()
     chunk_size = obj.chunk_size
@@ -93,7 +98,6 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
 ##################################################
 
   speak_enabled = False
-  url = "http://127.0.0.1:7851/api/tts-generate"
 
   while True:
     query = input("\nQuery: ")
@@ -123,6 +127,7 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
         print("last save: Saves the output from the last LLM invocation")
         print("speak on:  Turns on voice assistant audio")
         print("speak off: Turns off voice assistant audio")
+        print("exit: Leave command mode and back to the query prompt")
         continue
       else:
         print("Command mode options include: last run, last save, speak on, speak off, exit")
@@ -133,6 +138,7 @@ def chat_with_rag_pdf(obj: ChatWithRagPDF):
     result = qa_chain({"query": query})
 
     if speak_enabled:
-      subprocess.run(["./src/audio_output.sh", result["result"], "female_03.wav"])
-      
-
+# Avoid the error: https://errors.pydantic.dev/2.6/v/string_too_long
+      n = len(result["result"]) 
+      i = n if n <= 2000 else 2000
+      subprocess.run([obj.speaker_output_action, result["result"][0:i], "female_03.wav"])
