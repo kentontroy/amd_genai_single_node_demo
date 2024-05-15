@@ -19,6 +19,27 @@ class ChatWithRagPDF(BaseModel):
   chunk_overlap: int = 0
   pdf: str = ""
   speaker_output_action: str = "./src/audio_output.sh"
+  speaker_output_voice: str =  "female_03.wav"
+
+class ChatWithRagPodcasts(BaseModel):
+  workflow_type: str = "chat_rag_with_podcasts"
+  model: str = "mistral:latest"
+  device: str = "cpu"
+  temperature: float = 0.7
+  max_tokens: int = 50
+  prompt_template: str = ""
+  format_color_of_response: str = ""
+  console_line_length: int = 50
+  vector_store: str = "chromadb"
+  vector_store_path: str = ""
+  vector_store_collection: str = "demo"
+  vector_store_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+  vector_store_hnsw_search_algo: str = "cosine"
+  chunk_size: int = 1000
+  chunk_overlap: int = 0
+  episode_folder: str = ""
+  speaker_output_action: str = "./src/audio_output.sh"
+  speaker_output_voice: str =  "female_03.wav"
 
 class EmbedPodcastText(BaseModel):
   workflow_type: str = "embed_podcast_text"
@@ -74,7 +95,27 @@ def process_yaml(filePath: str) -> BaseModel:
     output["console_line_length"] = data["llm_inference"]["chat"]["console_line_length"]
     output["prompt_template"] = data["llm_inference"]["chat"]["prompt_template"]
     output["speaker_output_action"] = data["llm_inference"]["processing"]["speaker_output_action"]
+    output["speaker_output_voice"] = data["llm_inference"]["processing"]["speaker_output_voice"]
     return ChatWithRagPDF(**output)
+  elif output["workflow_type"] == "chat_rag_with_podcasts": 
+    output["model"] = data["llm_inference"]["model"]["name"]
+    output["device"] = data["llm_inference"]["model"]["device"]
+    output["temperature"] = data["llm_inference"]["model"]["temperature"]
+    output["max_tokens"] = data["llm_inference"]["model"]["max_tokens"]
+    output["vector_store"] = data["llm_inference"]["rag"]["vector_store"]
+    output["vector_store_path"] = data["llm_inference"]["rag"]["vector_store_path"]
+    output["vector_store_collection"] = data["llm_inference"]["rag"]["vector_store_collection"]
+    output["vector_store_embedding_model"] = data["llm_inference"]["rag"]["vector_store_embedding_model"]
+    output["vector_store_hnsw_search_algo"] = data["llm_inference"]["rag"]["vector_store_hnsw_search_algo"]
+    output["chunk_size"] = data["llm_inference"]["rag"]["chunk_size"]
+    output["chunk_overlap"] = data["llm_inference"]["rag"]["chunk_overlap"]
+    output["format_color_of_response"] = data["llm_inference"]["chat"]["format_color_of_response"]
+    output["console_line_length"] = data["llm_inference"]["chat"]["console_line_length"]
+    output["prompt_template"] = data["llm_inference"]["chat"]["prompt_template"]
+    output["episode_folder"] = data["llm_inference"]["processing"]["episode_folder"]
+    output["speaker_output_action"] = data["llm_inference"]["processing"]["speaker_output_action"]
+    output["speaker_output_voice"] = data["llm_inference"]["processing"]["speaker_output_voice"]
+    return ChatWithRagPodcasts(**output)
   elif output["workflow_type"] == "embed_podcast_text":
     output["model"] = data["llm_inference"]["model"]["name"]
     output["device"] = data["llm_inference"]["model"]["device"]

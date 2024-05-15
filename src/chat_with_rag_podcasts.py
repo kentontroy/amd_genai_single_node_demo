@@ -1,15 +1,13 @@
 from formatted_console_stream import FormattedConsoleStreamHandler
 from get_embedding import get_embedding
 from run_console_loop import run_console_loop
-from langchain_community.document_loaders import PDFMinerLoader
 from langchain_core.embeddings.embeddings import Embeddings
 from langchain_community.llms import Ollama
 from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import PromptTemplate
 from langchain.callbacks.manager import CallbackManager
 from langchain.chains import RetrievalQA
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from parse_yaml import ChatWithRagPDF
+from parse_yaml import ChatWithRagPodcasts
 from suppress_std_out import SuppressStdout
 import subprocess
 import sys
@@ -28,27 +26,15 @@ except ImportError:
 import chromadb
 #########################################################
 
-def chat_with_rag_pdf(obj: ChatWithRagPDF):
+def chat_with_rag_podcasts(obj: ChatWithRagPodcasts):
   ef: Embedding = get_embedding(obj)  
   chroma_client = chromadb.PersistentClient(path = obj.vector_store_path)
   collection_name = obj.vector_store_collection
   try:
-    collection = chroma_client.get_collection(name = collection_name, embedding_function = ef)
+    collection = chroma_client.get_collection(name=collection_name, embedding_function=ef)
   except Exception as error:
     print(error)
-    collection = chroma_client.create_collection( 
-      name=obj.vector_store_collection,
-      metadata={"hnsw:space": obj.vector_store_hnsw_search_algo} 
-    )
-    loader = PDFMinerLoader(obj.pdf)
-    data = loader.load()
-    chunk_size = obj.chunk_size
-    chunk_overlap = obj.chunk_overlap
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size = chunk_size, chunk_overlap = chunk_overlap)
-    all_splits = text_splitter.split_documents(data)
-    all_splits = list(map(lambda x: str(x), all_splits))
-    ids = [str(id) for id in range(0, len(all_splits))]
-    collection.add(ids = ids, documents = all_splits)
+    sys.exit(1)
 
   with SuppressStdout():
     vectorstore = Chroma(

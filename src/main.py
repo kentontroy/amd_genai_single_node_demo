@@ -1,5 +1,6 @@
-from parse_yaml import ChatWithRagPDF, EmbedPodcastText, ConvertSpeechToText, LoadPodcastsFromMarketplace, process_yaml
+from parse_yaml import ChatWithRagPDF, ChatWithRagPodcasts, EmbedPodcastText, ConvertSpeechToText, LoadPodcastsFromMarketplace, process_yaml
 from chat_with_rag_pdf import chat_with_rag_pdf
+from chat_with_rag_podcasts import chat_with_rag_podcasts
 from convert_podcast_to_text_on_gpu import convert_speech_to_text
 from embed_podcast_text import embed_podcast_text
 from load_podcasts_from_marketplace import load_podcasts_from_marketplace
@@ -28,6 +29,8 @@ if __name__== "__main__":
         obj = process_yaml(val)
         if isinstance(obj, ChatWithRagPDF):
           chat_with_rag_pdf(obj)
+        elif isinstance(obj, ChatWithRagPodcasts):
+          chat_with_rag_podcasts(obj)
         elif isinstance(obj, ConvertSpeechToText):
           convert_speech_to_text(obj)
         elif isinstance(obj, EmbedPodcastText):
