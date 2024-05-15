@@ -14,7 +14,7 @@ llm_inference:
     type: "chromadb"
     vector_store_path: "./chromadb"
     vector_store_collection: "summaries_marketplace_podcasts"
-    vector_store_embedding_model: "sentence-transformers/all-mpnet-base-v2"
+    vector_store_embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
     vector_store_hnsw_search_algo: "cosine"
     vector_store_query_example: "I don't think inflation will decrease significantly this year"
     chunk_size: 2000

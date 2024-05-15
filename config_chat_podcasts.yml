@@ -1,5 +1,5 @@
 llm_inference:
-  workflow_type: "chat_rag_with_pdf"
+  workflow_type: "chat_rag_with_podcasts"
 
   model:
     name: "llama2-uncensored:latest"
@@ -10,12 +10,11 @@ llm_inference:
   rag:
     vector_store: "chromadb"
     vector_store_path: "./chromadb"
-    vector_store_collection: "book_game_of_thrones"
+    vector_store_collection: "summaries_marketplace_podcasts"
     vector_store_embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
     vector_store_hnsw_search_algo: "cosine"
     chunk_size: 2000
     chunk_overlap: 100
-    pdf: "./pdf/game_of_thrones/A_Game_Of_Thrones.pdf" 
 
   chat:
     format_color_of_response: "CYAN"
@@ -29,5 +28,7 @@ llm_inference:
       Helpful Answer:
 
   processing:
+    episode_folder: "./audio/podcasts"
     speaker_output_action: "./src/audio_output.sh"
     speaker_output_voice:  "female_03.wav"
+
