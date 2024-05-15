@@ -1,5 +1,9 @@
 # amd_genai_single_node_demo
 
+## Use of NiFi for fetching daily podcast mp3 files, landing them into S3, and then using Whisper for speech-to-text converstions. 
+## Ollama is used thereafter with RAG to interact with the podcast text.
+![image](./images/nifi-flow.png)
+
 ## Installation instructions for RHEL 8 
 ```
 cat /etc/redhat-release
